@@ -15,7 +15,9 @@ class ClaimController extends Controller
      */
     public function index()
     {
-        return ClaimResource::collection(Claim::with('pic')->get());
+        $user = request()->user();
+        $claims = $user->claims()->paginate();
+        return ClaimResource::collection($claims);
     }
 
     /**
@@ -24,11 +26,8 @@ class ClaimController extends Controller
     public function store(ClaimRequest $request)
     {
         $claim = $request->validated();
-
         $claim['pic_id'] = $request->user()->id;
-
         $claim = Claim::create($claim);
-
         return new ClaimResource($claim);
     }
 
@@ -37,6 +36,8 @@ class ClaimController extends Controller
      */
     public function show(Claim $claim)
     {
+        $user = request()->user();
+        abort_if($user->id !== $claim->pic_id,403, 'You are not authorized to view this claim');
         return new ClaimResource($claim);
     }
 
@@ -45,6 +46,7 @@ class ClaimController extends Controller
      */
     public function update(ClaimRequest $request, Claim $claim)
     {
+        $claim->update($request->validated());
         return new ClaimResource($claim);
     }
 
