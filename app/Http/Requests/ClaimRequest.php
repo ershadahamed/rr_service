@@ -24,7 +24,7 @@ class ClaimRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:'.Claim::class,
+            'email' => 'required|email|max:255|unique:claims,email',
             'phone' => 'required|string|max:11|min:10',
             'ic' => 'required|string|max:12|min:12',
             'passport' => 'required|string|max:12'

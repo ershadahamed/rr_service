@@ -25,8 +25,7 @@ class ClaimController extends Controller
     {
         $claim = $request->validated();
 
-        $claim['pic_id'] = 1;
-        // $claim['pic_id'] = $request->user()->id;
+        $claim['pic_id'] = $request->user()->id;
 
         $claim = Claim::create($claim);
 

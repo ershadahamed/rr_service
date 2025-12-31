@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,10 +20,8 @@ return new class extends Migration
             $table->string('ic');
             $table->string('passport');
 
-            $table->foreignId('pic_id')
-                ->references('users')
-                ->constrained('users')
-                ->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'pic_id')
+                ->constrained()->cascadeOnDelete();
 
             // $table->string('phone');
             // $table->string('address');
