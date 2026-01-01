@@ -23,6 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
+        'is_super_admin',
     ];
 
     /**
@@ -48,8 +50,24 @@ class User extends Authenticatable
         ];
     }
 
-    public function claims(): HasMany
+    public function createdClients(): HasMany
     {
-        return $this->hasMany(Claim::class, 'pic_id', 'id');
+        return $this->hasMany(Client::class, 'created_by', 'id');
     }
+
+    public function updatedClients(): HasMany
+    {
+        return $this->hasMany(Client::class, 'updated_by', 'id');
+    }
+
+    public function createdClaims(): HasMany
+    {
+        return $this->hasMany(Client::class, 'created_by', 'id');
+    }
+
+    public function updatedClaims(): HasMany
+    {
+        return $this->hasMany(Client::class, 'updated_by', 'id');
+    }
+
 }

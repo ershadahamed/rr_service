@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Claim extends Model
+class Client extends Model
 {
     protected $fillable = [
-        'car_registration_number',
-        'brand',
-        'model',
-        'policy',
-        'insurance_company',
-        'workshop',
-        'reported_station',
-        'ic_driver',
-        'phone_driver',
-        'name_driver',
-        'location',
-        'picture_root_path',
+        'name',
+        'email',
+        'phone',
+        'ic',
+        'passport',
+        'country',
+        'address_1',
+        'address_2',
+        'address_3',
+        'city',
+        'state',
+        'zip',
         'created_by',
         'updated_by',
     ];

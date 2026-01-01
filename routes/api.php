@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\ClaimController;
+use App\Http\Controllers\Api\V1\ClientController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +12,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::prefix("v1")->group(function () {
         Route::apiResource('claims', ClaimController::class);
+        Route::apiResource('clients', ClientController::class);
     });
 });
 

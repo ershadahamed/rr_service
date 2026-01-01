@@ -7,6 +7,7 @@ use App\Http\Requests\ClaimRequest;
 use App\Http\Resources\ClaimResource;
 use App\Models\Claim;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClaimController extends Controller
 {
@@ -17,6 +18,10 @@ class ClaimController extends Controller
     {
         $user = request()->user();
         $claims = $user->claims()->paginate();
+        abort_if(
+            !$user->is_admin || $user->id !== $claims->created_by,
+            403,
+            'You are not authorized to view this claims');
         return ClaimResource::collection($claims);
     }
 
@@ -37,7 +42,10 @@ class ClaimController extends Controller
     public function show(Claim $claim)
     {
         $user = request()->user();
-        abort_if($user->id !== $claim->pic_id,403, 'You are not authorized to view this claim');
+        abort_if(
+            !$user->is_admin || $user->id !== $claim->created_by,
+            403,
+            'You are not authorized to view this claim');
         return new ClaimResource($claim);
     }
 
@@ -46,7 +54,13 @@ class ClaimController extends Controller
      */
     public function update(ClaimRequest $request, Claim $claim)
     {
+        abort_if(
+            !Auth::user()->is_admin || Auth::id() !== $claim->created_by,
+            403,
+            'You are not authorized to update this claim');
+
         $claim->update($request->validated());
+        $claim['updated_by'] = Auth::id();
         return new ClaimResource($claim);
     }
 
@@ -55,6 +69,11 @@ class ClaimController extends Controller
      */
     public function destroy(Claim $claim)
     {
+        abort_if(
+            !Auth::user()->is_admin || Auth::id() !== $claim->created_by,
+            403,
+            'You are not authorized to delete this client');
+
         $claim->delete();
         return response()->noContent();
     }

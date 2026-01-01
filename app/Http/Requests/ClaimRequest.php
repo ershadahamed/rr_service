@@ -22,34 +22,29 @@ class ClaimRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:claims,email',
-            'phone' => 'required|string|max:11|min:10',
-            'ic' => 'required|string|max:12|min:12',
-            'passport' => 'required|string|max:12'
+        $validation = [
+            'car_registration_number' => ['required', 'string', 'max:15'],
+            'brand' => ['required', 'string', 'max:50'],
+            'model' => ['required', 'string', 'max:50'],
+            'policy' => ['required', 'string', 'max:150'],
+            'insurance_company' => ['required', 'string', 'max:150'],
+            'workshop' => ['required', 'string', 'max:150'],
+            'reported_station' => ['required', 'string', 'max:150'],
+            'ic_driver' => ['required', 'string', 'max:12', 'min:12'],
+            'passport_driver' => ['required', 'string', 'max:12'],
+            'phone_driver' => ['required', 'number', 'max:11', 'min:10'],
+            'name_driver' => ['required', 'string', 'max:255'],
+            'location' => ['required', 'string', 'max:150'],
+            'picture_root_path' => ['required', 'string', 'max:255'],
         ];
-    }
 
-    public function messages(): array
-    {
-        return [
-            'name.required' => 'The name field is required.',
-            'email.required' => 'The email field is required.',
-            'email.email' => 'The email field must be a valid email address.',
-            'email.unique' => 'The email address has already been taken.',
-            'phone.required' => 'The phone field is required.',
-            'phone.string' => 'The phone field must be a string.',
-            'phone.max' => 'The phone field must be less than 11 characters.',
-            'phone.min' => 'The phone field must be at least 10 characters.',
-            'ic.required' => 'The ic field is required.',
-            'ic.string' => 'The ic field must be a string.',
-            'ic.max' => 'The ic field must be less than 12 characters.',
-            'ic.min' => 'The ic field must be at least 12 characters.',
-            'passport.required' => 'The passport field is required.',
-            'passport.string' => 'The passport field must be a string.',
-            'passport.max' => 'The passport field must be less than 12 characters.',
-        ];
+        if ($this->passport !== null ||
+            $this->passport !== '' ||
+            $this->passport !== 'N/A') {
+            $validation['country_driver'] = 'required|string|max:150';
+        }
+
+        return $validation;
     }
 
     // public function attributes(): array

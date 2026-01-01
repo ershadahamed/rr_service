@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,20 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('claims', function (Blueprint $table) {
+        Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('car_registration_number');
-            $table->string('brand');
-            $table->string('model');
-            $table->string('policy');
-            $table->string('insurance_company');
-            $table->string('workshop');
-            $table->string('reported_station');
-            $table->string('ic_driver');
-            $table->string('phone_driver');
-            $table->string('name_driver');
-            $table->string('location');
-            $table->string('picture_root_path');
+
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone');
+            $table->string('ic');
+            $table->string('passport');
+            $table->string('country');
+
+            $table->string('address_1');
+            $table->string('address_2')->nullable();
+            $table->string('address_3')->nullable();
+
+            $table->string('city');
+            $table->string('state');
+            $table->string('zip');
 
             $table->foreignId('created_by')
                 ->references('users:id')
@@ -46,6 +48,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('claims');
+        Schema::dropIfExists('clients');
     }
 };
