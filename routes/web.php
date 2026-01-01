@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return ['Laravel' => app()->version()];
+    abort(500, 'Unauthorized access');
+    // return ['RR Service - Auto Assist' => app()->version()];
 });
 
